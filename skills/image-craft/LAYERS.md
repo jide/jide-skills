@@ -11,15 +11,8 @@ drifting never contaminates the others.
 locate → crop with margin → isolate on uniform background → remove-bg
 ```
 
-**1. Locate.** Simple stack: preview and eyeball. Dense UI: detect and verify
-the overlay before trusting boxes:
-
-```bash
-node scripts/detect.mjs --image ui.png \
-  --items "the coral floating button, bottom right;the pagoda in the hero photo" \
-  --out /tmp/boxes.json --overlay /tmp/boxes_check.png
-node scripts/preview.js /tmp/boxes_check.png    # tight boxes? right elements?
-```
+**1. Locate.** Simple stack: preview and eyeball. Dense UI: detect boxes and
+verify the overlay — [DETECT.md](DETECT.md).
 
 **2. Crop with margin** — the margin gives the edit model context:
 

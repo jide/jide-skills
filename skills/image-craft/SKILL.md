@@ -1,6 +1,6 @@
 ---
 name: image-craft
-description: Generate production image assets — single images, batches and variants, coherent sheets (assets, icon sets, multi-screen designs), UI kits, lofi wireframes; edit images (erase elements, isolate subjects, transparency); split a stacked design into separate element layers; repair AI-degraded images (deslop). Use when the user wants any image or visual asset generated, edited, decomposed, or cleaned.
+description: Generate production image assets — single images, batches and variants, coherent sheets (assets, icon sets, multi-screen designs), UI kits, lofi wireframes; edit images (erase elements, isolate subjects, transparency); split a stacked design into separate element layers; locate elements in an image (bounding boxes, annotated overlays); repair AI-degraded images (deslop). Use when the user wants any image or visual asset generated, edited, decomposed, located, or cleaned.
 ---
 
 # image-craft
@@ -78,6 +78,7 @@ done when the image has been looked at — not when the command exits.
 | Structure first: lofi wireframe, then high quality | [WIREFRAMES.md](WIREFRAMES.md) |
 | Erase, isolate, make transparent, retouch | [EDITS.md](EDITS.md) |
 | Split a stacked design into separate element layers | [LAYERS.md](LAYERS.md) |
+| Locate elements: bounding boxes, annotated overlays | [DETECT.md](DETECT.md) |
 | Image degraded by repeated AI edits — repair | [DESLOP.md](DESLOP.md) |
 | Model limits, pricing, refusal recovery | [MODELS.md](MODELS.md) |
 
