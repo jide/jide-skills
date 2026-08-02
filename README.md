@@ -1,60 +1,69 @@
 # jide-skills
 
-Atelier de skills — source de vérité de mes skills génériques pour agents de coding.
+Hand-crafted agent skills — the source of truth for my generic coding-agent
+skills.
 
-Consommation (une fois publié sur GitHub) :
+Install:
 
 ```bash
-npx skills@latest add jide/jide-skills --skill <nom>
+npx skills@latest add jide/jide-skills --skill <name>
 ```
 
-## Principes
+## Skills
 
-- **Rien n'est copié ici tel quel.** Chaque skill est réécrit minutieusement sous le contrat
-  [`writing-great-skills`](.agents/skills/writing-great-skills/SKILL.md) (dev-dependency, voir plus bas).
-- **Générique par construction** : aucun couplage à un projet (Ludiz, HotDesigner…) — les
-  spécificités projet restent dans les repos projet.
-- **Un skill = une responsabilité.** Découpage justifié par invocation ou séquence, jamais par confort.
-- Les skills externes recommandés ne vivent PAS ici — ils sont référencés par la distro
-  [`jide-toolkit`](../jide-toolkit/) (registry + setup).
+| Skill | What it does |
+|---|---|
+| [`image-craft`](skills/image-craft/SKILL.md) | Production image generation & editing — variants, coherent sheets (assets, icon sets, multi-screen designs), UI kits, wireframes, edits/masks/outpaint, element isolation (layers), deslop. Backends: OpenAI, fal (Grok, Seedream, Ideogram, FLUX), Gemini. |
+| [`video-gen`](skills/video-gen/SKILL.md) | AI video clips — Seedance 2.0 reference-to-video (lip-sync), Kling v3, Veo 3.1, Gemini TTS, keyframe-grid camera control, sync-locked multi-clip assembly. |
+
+API keys are requested on first use only, for the backend actually used, and
+written to the workspace-root `.env` (see each skill's SKILL.md).
+
+## Principles
+
+- **Nothing is copied as-is.** Every skill is carefully written under the
+  [`writing-great-skills`](https://github.com/mattpocock/skills) contract
+  (dev-dependency, pinned in `skills-lock.json`).
+- **Generic by construction**: no coupling to any specific project — project
+  specifics stay in project repos.
+- **One skill = one responsibility.** Splits are justified by invocation or
+  sequence, never by convenience.
 
 ## Layout
 
 ```
-skills/            # les skills publiés (source de vérité)
-docs/CONVENTIONS.md# règles d'authoring au-delà du contrat writing-great-skills
-.agents/skills/    # dev-dependencies d'authoring (non publiées) — restaurées via lock
-skills-lock.json   # pin des dev-deps
+skills/            # published skills (source of truth)
+docs/CONVENTIONS.md# authoring rules beyond the writing-great-skills contract
+.agents/skills/    # authoring dev-dependencies (not published) — restored via lock
+skills-lock.json   # dev-deps pin
 ```
 
-Restaurer les dev-deps après clone :
+Restore dev-deps after cloning:
 
 ```bash
 npx skills@latest experimental_install
 ```
 
-⚠️ Quirk `skills` CLI : à l'install d'une dev-dep il peut déposer une copie dans `skills/`
-(le dossier publiable) en plus de `.agents/skills/`. Supprimer la copie de `skills/` —
-seuls nos skills authored y vivent.
+⚠️ `skills` CLI quirk: when installing a dev-dep it may drop a copy into
+`skills/` (the published folder) in addition to `.agents/skills/`. Delete the
+`skills/` copy — only authored skills live there.
 
-## Boucle d'authoring
+## Authoring loop
 
-1. Choisir un skill du backlog ci-dessous.
-2. Relire le contrat `writing-great-skills` + `docs/CONVENTIONS.md`.
-3. Écrire/réécrire dans `skills/<nom>/`.
-4. Tester dans un vrai projet (`npx skills add` depuis le chemin local ou la branche).
-5. Publier, puis pinner dans le registry de `jide-toolkit`.
+1. Pick a skill from the backlog below.
+2. Re-read the `writing-great-skills` contract + `docs/CONVENTIONS.md`.
+3. Write/rewrite in `skills/<name>/`.
+4. Test in a real project (`npx skills add` from the local path or a branch).
+5. Publish, then pin in the `jide-toolkit` registry.
 
 ## Backlog
 
-Sources d'inspiration — à réécrire, pas à copier :
+Inspiration sources — to be rewritten, not copied:
 
-| Skill cible | Source d'inspiration | Domaine | Statut |
+| Target skill | Inspiration source | Domain | Status |
 |---|---|---|---|
-| `image-craft` | `ludiz-image-gen` + `ludiz-step-icon` + evals `ludiz-vibe-smallcore` | assets | **v0 complet** — tronc + 8 branches + scripts (outils locaux testés ; backends API à tester en réel) |
-| `video-gen` | `ludiz-reveal-video` généralisé (Seedance/Kling/Veo/TTS, keyframe grids, assembly sync-locked) | vidéo | **v0 complet** — 5 docs + 8 scripts ; TTS + chaîne audio testés en réel ; génération vidéo non testée (coûteux) |
-| `design-to-html` | `HotDesigner/design-to-html` + CLI `dt` | design→code | à écrire |
-| ~~`generate-design`~~ | — | — | abandonné : couvert par image-craft (tronc + WIREFRAMES + SHEETS §5 + KITS) |
-| ~~`vision-detect`~~ | — | — | absorbé : `detect.mjs` est un outil interne d'image-craft ; skill standalone seulement si besoin hors génération |
-| `preview-branch` | `skillfab-mono/ludiz-preview-branch` | infra | à évaluer |
-| `browser-session` | `skillfab-mono/ludiz-browser-access` | infra | à évaluer |
+| `image-craft` | private prior art + eval learnings | assets | **shipped v0** |
+| `video-gen` | private prior art (fal Seedance pipeline) | assets | **shipped v0** |
+| `design-to-html` | HotDesigner (vision-led extraction + `dt` CLI) | design→code | to write |
+| `preview-branch` | per-branch preview environments pattern | infra | to evaluate |
+| `browser-session` | scoped agent browser sessions pattern | infra | to evaluate |

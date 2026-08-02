@@ -1,55 +1,63 @@
-# Conventions d'authoring
+# Authoring conventions
 
-Complète le contrat [`writing-great-skills`](../.agents/skills/writing-great-skills/SKILL.md)
-(vocabulaire : description, context load, leading word, progressive disclosure, failure modes).
-En cas de doute, le contrat prime. Brouillon — à affiner ensemble au fil des réécritures.
+Complements the [`writing-great-skills`](../.agents/skills/writing-great-skills/SKILL.md)
+contract (vocabulary: description, context load, leading word, progressive
+disclosure, failure modes). When in doubt, the contract wins. Living draft —
+refined with each rewrite.
 
-## Langue
+## Language
 
-- `SKILL.md` et fichiers liés : **anglais** (portabilité cross-agents, priors du modèle).
-- Docs du repo (README, ce fichier) : français.
+Everything is English: SKILL.md, linked files, scripts, repo docs, commits.
 
 ## Invocation
 
-- **User-invoked par défaut** (`disable-model-invocation: true`) — zéro context load.
-- Model-invoked seulement si : l'agent doit déclencher seul, OU un autre skill doit l'atteindre.
-- Description model-invoked : déclencheurs uniquement, un trigger par branche, pas de synonymes.
+- **User-invoked by default** (`disable-model-invocation: true`) — zero context load.
+- Model-invoked only if: the agent must trigger it on its own, OR another skill
+  must reach it.
+- Model-invoked description: triggers only, one trigger per branch, no synonyms.
 
-## Structure d'un skill
+## Skill structure
 
 ```
-skills/<nom>/
-  SKILL.md          # steps + référence inline minimale
-  <REF>.md          # progressive disclosure (nommé pour ce qu'il contient)
-  scripts/          # outillage exécutable co-localisé, self-install au premier usage
+skills/<name>/
+  SKILL.md          # steps + minimal inline reference
+  <REF>.md          # progressive disclosure (named for what it holds)
+  scripts/          # co-located executable tooling, self-installs on first use
 ```
 
-- Outil co-localisé DANS le skill, jamais à la racine du repo (portabilité à l'install).
-- Self-install : le skill vérifie/installe ses deps au premier run, pas de prérequis manuel.
+- Tooling is co-located INSIDE the skill, never at the repo root (portability
+  at install time).
+- Self-install: the skill checks/installs its deps on first run — no manual
+  prerequisites.
 
-## Granularité
+## Granularity
 
-- **Un skill, des branches** : les variantes d'une même capability (ex. image-craft : simple,
-  icônes, deslop) sont des branches — un fichier de référence par branche, chargé à la
-  demande. Une seule unité d'install, une seule description.
-- Splitter en skill séparé seulement si : la branche a son **propre déclencheur** utilisé
-  seul au quotidien, OU le tronc SKILL.md sprawle malgré la disclosure.
-- Une base n'est un skill que si elle a son propre déclencheur. Mécanique partagée sans
-  déclencheur → outil co-localisé ou fichier de référence, jamais un skill.
-- Un skill atteignable par d'autres skills doit être model-invoked (user-invoked =
-  inatteignable). Profondeur de dépendance max : 2.
+- **One skill, many branches**: variants of a single capability (e.g.
+  image-craft: simple, icons, deslop) are branches — one reference file per
+  branch, loaded on demand. One install unit, one description.
+- Split into a separate skill only if: the branch has its **own trigger** used
+  on its own daily, OR the SKILL.md trunk sprawls despite disclosure.
+- A base is only a skill if it has its own trigger. Shared mechanics without a
+  trigger → co-located tool or reference file, never a skill.
+- A skill reachable by other skills must be model-invoked (user-invoked =
+  unreachable). Max dependency depth: 2.
 
-## Backends & dépendances
+## Backends & dependencies
 
-- **Pattern provider-fallback** : si un MCP adapté est présent (ex. fal), l'utiliser ; sinon
-  fallback script direct (API Gemini/OpenAI…). Un seul skill, plusieurs backends — jamais
-  un skill par backend.
-- **Dépendance skill→skill** : nommée en prose au point d'usage ("screenshot via the
-  `agent-browser` skill") + vérification de présence avec instruction d'install en fallback.
-- Pas de dépendance à un état global du repo hôte (env vars documentées dans le SKILL.md).
+- **Provider-fallback pattern**: if a suitable MCP is present, use it;
+  otherwise fall back to a direct API script. One skill, several backends —
+  never one skill per backend.
+- **Skill→skill dependency**: named in prose at the point of use ("screenshot
+  via the `agent-browser` skill") + presence check with an install instruction
+  as fallback.
+- No dependency on host-repo global state (env vars documented in SKILL.md).
+- API keys: request only the key for the backend in use; write to the
+  workspace-root `.env` (survives skill updates, shared across skills); warn
+  when that `.env` is not gitignored.
 
-## Qualité avant publication
+## Quality before publishing
 
-- Passage failure modes : premature completion, duplication, sédiment, sprawl, no-ops, négation.
-- Critères de complétion vérifiables à chaque step.
-- Testé dans un vrai projet avant pin dans `jide-toolkit`.
+- Failure-modes pass: premature completion, duplication, sediment, sprawl,
+  no-ops, negation.
+- Checkable completion criteria on every step.
+- Tested in a real project before pinning in `jide-toolkit`.
