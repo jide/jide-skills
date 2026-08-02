@@ -33,8 +33,11 @@ node scripts/seedance.mjs --prompt "<structured prompt>" \
   [--audio vo/track.mp3] [--mode i2v] [--fast] [--end last_frame.png] [--seed N]
 ```
 
-First run self-installs (Node ≥ 18; `FAL_KEY` in workspace `.env`). Every
-output saves a `<basename>.txt` sidecar (prompt, endpoint, refs, source URL).
+First run self-installs (Node ≥ 18). Everything runs on one `FAL_KEY`, read
+from the environment or the workspace-root `.env`. Missing key: the script
+error names the variable, the target file and where to get a key — relay that
+to the user, write the key to the workspace `.env`, retry. Every output saves
+a `<basename>.txt` sidecar (prompt, endpoint, refs, source URL).
 
 ## The structured prompt
 
