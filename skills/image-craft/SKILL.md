@@ -30,8 +30,12 @@ bash scripts/gen.sh \
   --prompt "..." \
   [--refs "refs/logo.png,refs/character.png"] \
   [--model gpt-image-2|gemini-lite|grok|grok-quality|seedream] \
-  [--aspect 16:9] [--size 2K|WxH]
+  [--aspect 16:9] [--size 2K|WxH] \
+  [--quality low|medium|high] [--mask mask.png]
 ```
+
+`--quality` (gpt-image-2): medium by default and right in most cases — `low`
+for drafts, `high` only when medium misses fidelity or text.
 
 The exact prompt auto-saves as `<basename>.txt` next to each output.
 
@@ -68,7 +72,7 @@ done when the image has been looked at — not when the command exits.
 | Task at hand | Open |
 |---|---|
 | N variants of one image, or state variants (hover, active…) | [VARIANTS.md](VARIANTS.md) |
-| Coherent sheet of assets in one generation | [SHEETS.md](SHEETS.md) |
+| Coherent set in one generation: asset sheet, or multi-screen design sheet | [SHEETS.md](SHEETS.md) |
 | Icon set, or one icon matching an existing set | [ICONS.md](ICONS.md) |
 | UI kit from a design or brief | [KITS.md](KITS.md) |
 | Structure first: lofi wireframe, then high quality | [WIREFRAMES.md](WIREFRAMES.md) |

@@ -31,6 +31,8 @@ bash scripts/gen.sh --model grok --refs "refs/dirty-crop.png" \
 ```
 
 The isolated version becomes the reference for all subsequent generations.
+Extracting elements from inside a larger design (locate → crop → isolate,
+possibly many of them) is the [LAYERS.md](LAYERS.md) pipeline.
 
 ## Transparency
 
