@@ -64,6 +64,3 @@ Inspiration sources — to be rewritten, not copied:
 |---|---|---|---|
 | `image-craft` | private prior art + eval learnings | assets | **shipped v0** |
 | `video-gen` | private prior art (fal Seedance pipeline) | assets | **shipped v0** |
-| `design-to-html` | HotDesigner (vision-led extraction + `dt` CLI) | design→code | to write |
-| `preview-branch` | per-branch preview environments pattern | infra | to evaluate |
-| `browser-session` | scoped agent browser sessions pattern | infra | to evaluate |
