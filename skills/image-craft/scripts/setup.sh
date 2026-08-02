@@ -61,6 +61,32 @@ key_in_env_or_files() {
     return 1
 }
 
+# Preferred .env target: the workspace root (next to AGENTS.md/CLAUDE.md) —
+# survives skill updates and is shared by every skill. Falls back to scripts/.env.
+env_target() {
+    local probe="$SCRIPT_DIR"
+    for _ in 1 2 3 4 5 6; do
+        [ "$probe" = "/" ] && break
+        if [ -f "$probe/AGENTS.md" ] || [ -f "$probe/CLAUDE.md" ]; then
+            echo "$probe/.env"; return
+        fi
+        probe="$(dirname "$probe")"
+    done
+    echo "$SCRIPT_DIR/.env"
+}
+
+write_key() {
+    local var="$1" val="$2" target
+    target="$(env_target)"
+    printf "%s=%s\n" "$var" "$val" >> "$target"
+    chmod 600 "$target"
+    log "Key written to $target (chmod 600)."
+    local dir; dir="$(dirname "$target")"
+    if [ -d "$dir/.git" ] && ! git -C "$dir" check-ignore -q .env 2>/dev/null; then
+        echo "WARN: $target is NOT gitignored — add '.env' to $dir/.gitignore before committing." >&2
+    fi
+}
+
 require_key() {
     local label="$1" pattern="$2" default_var="$3" help_url="$4"
     if key_in_env_or_files "$pattern"; then return 0; fi
@@ -70,13 +96,11 @@ require_key() {
         printf "Paste key: "
         read -r USER_KEY
         if [ -z "$USER_KEY" ]; then echo "Error: empty key." >&2; exit 1; fi
-        printf "%s=%s\n" "$default_var" "$USER_KEY" >> .env
-        chmod 600 .env
-        log ".env written (chmod 600)."
+        write_key "$default_var" "$USER_KEY"
     else
         echo "Error: no $label API key found." >&2
         echo "Set one of: $(echo "$pattern" | tr '|' ' ')" >&2
-        echo "  or add to $SCRIPT_DIR/.env: $default_var=your-key-here" >&2
+        echo "  or add to $(env_target): $default_var=your-key-here" >&2
         echo "Get a key at $help_url" >&2
         exit 1
     fi

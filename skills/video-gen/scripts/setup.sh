@@ -34,15 +34,35 @@ have_key() {
     done
     return 1
 }
+# Preferred .env target: workspace root (next to AGENTS.md/CLAUDE.md) —
+# survives skill updates, shared by every skill. Fallback: scripts/.env.
+env_target() {
+    local probe="$SCRIPT_DIR"
+    for _ in 1 2 3 4 5 6; do
+        [ "$probe" = "/" ] && break
+        if [ -f "$probe/AGENTS.md" ] || [ -f "$probe/CLAUDE.md" ]; then
+            echo "$probe/.env"; return
+        fi
+        probe="$(dirname "$probe")"
+    done
+    echo "$SCRIPT_DIR/.env"
+}
+
 if ! have_key; then
     if [ -t 0 ] && [ -t 1 ]; then
         echo ""; echo "fal.ai API key required. Get one at https://fal.ai/dashboard/keys"
         printf "Paste key: "; read -r K
         [ -z "$K" ] && { echo "Error: empty key." >&2; exit 1; }
-        printf "FAL_KEY=%s\n" "$K" >> .env; chmod 600 .env
-        log ".env written (chmod 600)."
+        TARGET="$(env_target)"
+        printf "FAL_KEY=%s\n" "$K" >> "$TARGET"; chmod 600 "$TARGET"
+        log "Key written to $TARGET (chmod 600)."
+        TDIR="$(dirname "$TARGET")"
+        if [ -d "$TDIR/.git" ] && ! git -C "$TDIR" check-ignore -q .env 2>/dev/null; then
+            echo "WARN: $TARGET is NOT gitignored — add '.env' to $TDIR/.gitignore before committing." >&2
+        fi
     else
-        echo "Error: no FAL_KEY found. Set it in env or a workspace .env." >&2
+        echo "Error: no FAL_KEY found." >&2
+        echo "  Add to $(env_target): FAL_KEY=your-key-here" >&2
         echo "Get a key at https://fal.ai/dashboard/keys" >&2; exit 1
     fi
 fi
