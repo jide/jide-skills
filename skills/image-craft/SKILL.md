@@ -1,6 +1,6 @@
 ---
 name: image-craft
-description: Generate production image assets — single images, batches and variants, coherent sheets (assets, icon sets, multi-screen designs), UI kits, lofi wireframes; edit images (erase elements, isolate subjects, transparency); split a stacked design into separate element layers; locate elements in an image (bounding boxes, annotated overlays); repair AI-degraded images (deslop). Use when the user wants any image or visual asset generated, edited, decomposed, located, or cleaned.
+description: Generate production image assets — single images, batches and variants, app/site screen designs, coherent sheets (assets, icon sets, multi-screen designs), UI kits, lofi wireframes; edit images (erase elements, isolate subjects, transparency); split a stacked design into separate element layers; locate elements in an image (bounding boxes, annotated overlays); repair AI-degraded images (deslop). Use when the user wants any image or visual asset generated, designed, edited, decomposed, located, or cleaned.
 ---
 
 # image-craft
@@ -72,6 +72,7 @@ done when the image has been looked at — not when the command exits.
 | Task at hand | Open |
 |---|---|
 | N variants of one image, or state variants (hover, active…) | [VARIANTS.md](VARIANTS.md) |
+| Design an app screen, site page, layout | [DESIGN.md](DESIGN.md) |
 | Coherent set in one generation: asset sheet, or multi-screen design sheet | [SHEETS.md](SHEETS.md) |
 | Icon set, or one icon matching an existing set | [ICONS.md](ICONS.md) |
 | UI kit from a design or brief | [KITS.md](KITS.md) |

@@ -97,8 +97,11 @@ node scripts/grid-slice.mjs --in renders/screens_v1.png --cols 2 --rows 2 \
   --inset 0.01 --out-dir designs/ --names onboarding,home,detail,profile
 ```
 
-Structure not yet validated with the user? Do a lofi pass first —
-[WIREFRAMES.md](WIREFRAMES.md) — then feed the validated wireframe as a ref.
+Write the sheet prompt as a creative brief — intention, general art direction,
+detailed content, explicit creative license — not a style/layout spec:
+[DESIGN.md](DESIGN.md). Structure not yet validated with the user? Do a lofi
+pass first — [WIREFRAMES.md](WIREFRAMES.md) — then feed the validated
+wireframe as a ref.
 
 ## Cheap tricks
 
